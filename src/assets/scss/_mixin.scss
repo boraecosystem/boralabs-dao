@@ -1,0 +1,67 @@
+@charset "utf-8";
+
+@import 'svg';
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin hover($target: background-color) {
+  transition: $target 0.3s;
+}
+
+@mixin img-overflow($line) {
+  overflow: hidden;
+  display: inline-block;
+  line-height: $line;
+  vertical-align: top;
+}
+
+@mixin img($name, $width, $height, $size: contain) {
+  @include img-overflow(99em);
+  width: $width + px;
+  height: $height + px;
+  background: {
+    image: url(#{$imgPath}#{$name});
+    repeat: no-repeat;
+    position: 50% 50%;
+    size: $size;
+  }
+}
+
+@mixin svg($fn, $width, $height, $color) {
+  @include img-overflow(99em);
+  width: $width + px;
+  height: $height + px;
+  $color: rgba($color, 0.999);
+  background: {
+    image: call(get-function($fn), $color);
+    repeat: no-repeat;
+    size: contain;
+    position: 50% 50%;
+  }
+}
+
+@mixin TM($size) {
+  font-family: TM;
+  font-size: $size + px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+@mixin TB($size) {
+  font-family: TB;
+  font-size: $size + px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+@mixin skeleton {
+  background: {
+    image: linear-gradient(102deg, #02363b 0%, #005e68 50%, #02363b 100%);
+    size: 200% 100%;
+  }
+  animation: gradient 2s infinite linear;
+}

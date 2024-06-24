@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  api:
+    build:
+      context: ./server
+      dockerfile: build/Dockerfile
+    container_name: 'boralabs-api'
+    environment:
+      - fromBlock=39969260
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_USER=root
+      - MONGO_PWD=1234
+    ports:
+      - '3000:8080'
+    depends_on:
+      - 'mongo'
+  mongo:
+    image: 'mongo:6.0'
+    container_name: 'boralabs-db'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=1234
+      - MONGO_INITDB_DATABASE=boralabs
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./storage/data/mongo:/data/db
+  web:
+    build:
+      context: .
+      dockerfile: storage/build/Dockerfile
+    container_name: 'boralabs-web'
+    ports:
+      - '8080:8082'

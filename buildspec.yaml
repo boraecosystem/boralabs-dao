@@ -1,0 +1,51 @@
+# AWS CodeBuild buildspec file
+# https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html
+# https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref.html
+version: 0.2
+# TODO: Get Env file from build, get correct ecr url
+env:
+  variables:
+    IMAGE_REPO_NAME: boralabs-dao
+    AWS_DEFAULT_REGION: 'ap-northeast-2'
+    AWS_REGION: 'ap-northeast-2'
+    DOCKERFILE_PATH: storage/build/Dockerfile
+    INSTANCE_ID: 'i-08cfad7e388143ca0'
+batch:
+  fast-fail: true
+
+phases:
+  install:
+    commands:
+      - echo Installing app dependencies...
+      - echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+      - source ~/.bashrc
+      - yum install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
+  pre_build:
+    commands:
+      - echo Entered the pre_build phase...
+      - echo Logging in to Metabora Account Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 030628981456.dkr.ecr.ap-northeast-2.amazonaws.com
+      - echo Generating .env config...
+      - cp .env.$_APP_ENV .env
+  build:
+    commands:
+      - echo Building the Docker image...
+      - BUILD_TAG=$CODEBUILD_RESOLVED_SOURCE_VERSION-$CODEBUILD_BUILD_NUMBER
+      - REPOSITORY_URL=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
+      - docker build -t $REPOSITORY_URL:$BUILD_TAG -f $DOCKERFILE_PATH .
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $REPOSITORY_URL --all-tags
+  post_build:
+    commands:
+      - echo Entered the post_build phase...
+      - echo Change directory to secondary source
+      - cd $CODEBUILD_SRC_DIR
+      - echo List directory
+      - ls -la
+      - |
+        aws ssm send-command --document-name "AWS-RunShellScript" \
+          --parameters "commands=[\"sudo docker pull $REPOSITORY_URL:$BUILD_TAG && sudo docker service update --image $REPOSITORY_URL:$BUILD_TAG $SERVICE\"]" \
+          --targets "Key=instanceids,Values=i-0576122d332dbf7a2" \
+          --comment "BoraLabs DAO API - Code Deploy"

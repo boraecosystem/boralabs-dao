@@ -1,0 +1,53 @@
+@charset "utf-8";
+
+$fontpath: '@/assets/fonts/';
+
+@font-face {
+  font-family: 'PB';
+  font-weight: 700;
+  font-display: swap;
+  src:
+    local('Pretendard Bold'),
+    url('#{$fontpath}Pretendard-Bold.woff2') format('woff2'),
+    url('#{$fontpath}Pretendard-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'PM';
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local('Pretendard Medium'),
+    url('#{$fontpath}Pretendard-Medium.woff2') format('woff2'),
+    url('#{$fontpath}Pretendard-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'PR';
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local('Pretendard Regular'),
+    url('#{$fontpath}Pretendard-Regular.woff2') format('woff2'),
+    url('#{$fontpath}Pretendard-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'TM';
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local('Tomorrow Medium'),
+    url('#{$fontpath}Tomorrow-Medium.woff2') format('woff2'),
+    url('#{$fontpath}Tomorrow-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'TB';
+  font-weight: 600;
+  font-display: swap;
+  src:
+    local('Tomorrow SemiBold'),
+    url('#{$fontpath}Tomorrow-SemiBold.woff2') format('woff2'),
+    url('#{$fontpath}Tomorrow-SemiBold.woff') format('woff');
+}

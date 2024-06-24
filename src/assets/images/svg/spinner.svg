@@ -1,0 +1,11 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="20.0001" cy="4.00012" r="4" fill="#03DAC6" />
+  <circle cx="20.0002" cy="36.0001" r="4" fill="#EE2EFF" />
+  <circle cx="36" cy="20.0001" r="4" transform="rotate(90 36 20.0001)" fill="#DDECFF" />
+  <circle cx="3.99982" cy="20.0001" r="4" transform="rotate(90 3.99982 20.0001)" fill="#EE2EFF" />
+  <circle cx="31.3135" cy="31.3138" r="4" transform="rotate(135 31.3135 31.3138)" fill="#03DAC6" />
+  <circle cx="8.68623" cy="8.6864" r="4" transform="rotate(135 8.68623 8.6864)" fill="#DDECFF" />
+  <circle cx="31.3137" cy="8.68646" r="4" transform="rotate(45 31.3137 8.68646)" fill="#EE2EFF" />
+  <circle cx="8.68603" cy="31.3138" r="4" transform="rotate(45 8.68603 31.3138)" fill="#DDECFF" />
+</svg>
+    
